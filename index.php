@@ -77,6 +77,8 @@
     <div class="container">
         <h1>Welcome,คุณ <?php echo $_SESSION["user_name"] . " " . $_SESSION["user_last_name"]; ?></h1>
         <a href="bordupload.php">upload file</a>
+        h1>Welcome,คุณ <?php echo $_SESSION["user_name"] . " " . $_SESSION["user_last_name"]; ?></h1>
+        <a href="bordupload.php">upload file</a>
     </div>
 </body>
 </html>
