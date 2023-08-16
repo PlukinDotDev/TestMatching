@@ -3,6 +3,9 @@
 <head>
     <title>Upload File</title>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+
 </head>
 <body>
     <?php
@@ -34,7 +37,16 @@
 
         // กำหนดตำแหน่งที่จะบันทึกไฟล์
         $upload_dir = "uploads/";
-        $target_file = $upload_dir . basename($file_name);
+
+        // ถ้ามีไฟล์ที่มีชื่อเดียวกันแล้ว สร้างชื่อใหม่โดยเพิ่มเลขนับ
+        $counter = 1;
+        $new_file_name = $file_name;
+        while (file_exists($upload_dir . $new_file_name)) {
+            $new_file_name = pathinfo($file_name, PATHINFO_FILENAME) . "_$counter.$file_extension";
+            $counter++;
+        }
+
+        $target_file = $upload_dir . $new_file_name;
 
         // ตรวจสอบนามสกุลไฟล์ที่อัปโหลด
         $allowed_extensions = array("pdf", "docx", "jpeg", "jpg", "png", "xlsx");
@@ -54,7 +66,7 @@
 
         // บันทึกข้อมูลลงในฐานข้อมูล
         $sql = "INSERT INTO files (user_id, user_name, user_last_name, file_name, file_path, file_size, file_type, upload_date)
-                VALUES ('$user_id', '$user_name', '$user_last_name', '$file_name', '$target_file', '$file_size', '$file_type', NOW())";
+                VALUES ('$user_id', '$user_name', '$user_last_name', '$new_file_name', '$target_file', '$file_size', '$file_type', NOW())";
 
         if (move_uploaded_file($file_tmp, $target_file) && $conn->query($sql) === TRUE) {
             echo "<script>
@@ -86,13 +98,13 @@
 
     <form action="" method="post" enctype="multipart/form-data">
         <label for="file">เลือกไฟล์:</label>
-        <input type="file" id="file" name="file" required><br>
+        <input class="form-control" type="file" id="file" name="file" required><br>
 
-        <button type="submit">อัปโหลด</button>
+        <button class="btn btn-outline-success" type="submit">อัปโหลด</button>
     </form>
 
     <br>
-    <a href="index.php">กลับหน้าหลัก</a>
+    <a class="btn btn-outline-danger" href="index.php">กลับหน้าหลัก</a>
     
     <script>
         // ตรวจสอบกรณีที่กรอกข้อมูลไม่ครบ

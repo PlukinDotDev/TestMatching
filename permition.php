@@ -71,9 +71,8 @@
             <!--<h3></h3>
              <center>  <img src="#" width="550px" class="responsive"></center> 
                 </div>-->
-
-    <body>
-    <?php
+<body>
+                <?php
     session_start();
     include 'connectdb.php';
 
@@ -98,7 +97,7 @@
                         showConfirmButton: false,
                         timer: 1500
                     }).then(function() {
-                        window.location.href = 'permition.php';
+                        window.location.href = 'index.php';
                     });
                   </script>";
         } else {
@@ -140,11 +139,5 @@
             <button type="submit">เพิ่มผู้ใช้งาน</button>
         </form>
     </div>
-</body>
-
-				
-		</section>
-		
-	</div>
 </body>
 </html>
