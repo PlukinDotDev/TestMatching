@@ -28,13 +28,19 @@
 
     <?php include 'nav.php'; ?>
     
-    <div class="container">
-        <h1>Welcome, <?php echo $_SESSION["user_name"] . " " . $_SESSION["user_last_name"]; ?></h1>
-        <a class="btn btn-primary" href="bordupload.php">Upload File</a>
-        
-        <?php if ($role == "admin"): ?>
-            <a class="btn btn-primary" href="edit_file.php">View</a>
-        <?php endif; ?>
+    <div class="container-fluid">
+        <div class="row">
+            <?php include 'sidebars.php'; ?>
+            
+            <div class="col main-content">
+                <h1>Welcome, <?php echo $_SESSION["user_name"] . " " . $_SESSION["user_last_name"]; ?></h1>
+                <a class="btn btn-primary" href="bordupload.php">Upload File</a>
+                
+                <?php if ($role == "admin"): ?>
+                    <a class="btn btn-primary" href="edit_file.php">View</a>
+                <?php endif; ?>
+            </div>
+        </div>
     </div>
 </body>
 </html>
