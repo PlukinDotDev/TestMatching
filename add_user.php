@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Add User</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="styles.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </head>
@@ -9,6 +10,11 @@
     <?php
     session_start();
     include 'connectdb.php';
+
+    if (!isset($_SESSION["user_id"]) || $_SESSION["user_type"] !== "admin") {
+        header("Location: index.php");
+        exit();
+    }
 
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $user_name = $_POST["user_name"];
@@ -48,30 +54,42 @@
     }
     ?>
 
-    <div class="container">
-        <h1>Add User</h1>
+    <div class="container mt-5">
+        <h1 class="mb-4">Add User</h1>
 
         <form action="" method="post">
-            <label for="user_name">ชื่อ:</label>
-            <input type="text" id="user_name" name="user_name" required><br>
+            <div class="mb-3">
+                <label for="user_name" class="form-label">ชื่อ:</label>
+                <input type="text" class="form-control" id="user_name" name="user_name" required>
+            </div>
 
-            <label for="user_last_name">นามสกุล:</label>
-            <input type="text" id="user_last_name" name="user_last_name" required><br>
+            <div class="mb-3">
+                <label for="user_last_name" class="form-label">นามสกุล:</label>
+                <input type="text" class="form-control" id="user_last_name" name="user_last_name" required>
+            </div>
 
-            <label for="user_email">อีเมล:</label>
-            <input type="email" id="user_email" name="user_email" required><br>
+            <div class="mb-3">
+                <label for="user_email" class="form-label">อีเมล:</label>
+                <input type="email" class="form-control" id="user_email" name="user_email" required>
+            </div>
 
-            <label for="user_password">รหัสผ่าน:</label>
-            <input type="password" id="user_password" name="user_password" required><br>
+            <div class="mb-3">
+                <label for="user_password" class="form-label">รหัสผ่าน:</label>
+                <input type="password" class="form-control" id="user_password" name="user_password" required>
+            </div>
 
-            <label for="user_type">ประเภทผู้ใช้งาน:</label>
-            <select id="user_type" name="user_type" required>
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-            </select><br>
+            <div class="mb-3">
+                <label for="user_type" class="form-label">ประเภทผู้ใช้งาน:</label>
+                <select class="form-select" id="user_type" name="user_type" required>
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
 
-            <button type="submit">เพิ่มผู้ใช้งาน</button>
+            <button type="submit" class="btn btn-primary">เพิ่มผู้ใช้งาน</button>
         </form>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

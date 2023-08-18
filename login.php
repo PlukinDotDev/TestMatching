@@ -15,29 +15,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         if (password_verify($user_password, $row["user_password"])) {
-            $_SESSION["user_id"] = $row["user_id"];
-            $_SESSION["user_name"] = $row["user_name"];
-            $_SESSION["user_last_name"] = $row["user_last_name"];
-            $_SESSION["user_type"] = $row["user_type"];
-            header("Location: index.php");
-            exit();
+            if ($row["user_status"] === "active") {
+                $_SESSION["user_id"] = $row["user_id"];
+                $_SESSION["user_name"] = $row["user_name"];
+                $_SESSION["user_last_name"] = $row["user_last_name"];
+                $_SESSION["user_type"] = $row["user_type"];
+                header("Location: index.php");
+                exit();
+            } else {
+                $error_message = "บัญชีของคุณถูกระงับ";
+            }
         } else {
-            echo "<script>
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'เกิดข้อผิดพลาด!',
-                        text: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง',
-                    });
-                  </script>";
+            $error_message = "อีเมลหรือรหัสผ่านไม่ถูกต้อง";
         }
     } else {
-        echo "<script>
-                Swal.fire({
-                    icon: 'error',
-                    title: 'เกิดข้อผิดพลาด!',
-                    text: 'อีเมลหรือรหัสผ่านไม่ถูกต้อง',
-                });
-              </script>";
+        $error_message = "อีเมลหรือรหัสผ่านไม่ถูกต้อง";
     }
 
     $stmt->close();
@@ -72,6 +64,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <h2>ระบบหลังบ้าน PG</h2>
                             <p>PG Estated Development Company Limited</p>
                         </div>
+                        <?php if (isset($error_message)) : ?>
+                            <div class="alert alert-danger mb-3" role="alert">
+                                <?php echo $error_message; ?>
+                            </div>
+                        <?php endif; ?>
                         <div class="input-group mb-3">
                             <input type="email" class="form-control form-control-lg bg-light fs-6" id="user_email" name="user_email" placeholder="Email address" required><br>
                         </div>
